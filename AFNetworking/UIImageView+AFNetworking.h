@@ -32,6 +32,13 @@
  This category adds methods to the UIKit framework's `UIImageView` class. The methods in this category provide support for loading remote images asynchronously from a URL.
  */
 @interface UIImageView (AFNetworking)
+/**
+ AFAR MODIFICATION - exposing the af_sharedImageRequestOperationQueues so background wanderlist caching can use the same queue.
+ important because now we'll be leveraging one queue, so operations can have their queuePriority and threadPriority
+ adjusted. wanderlist caching request operations will have a lower priority than other such operations, such as those
+ created for loading images into the grid view.
+ */
++ (NSOperationQueue *)af_sharedImageRequestOperationQueue;
 
 /**
  Creates and enqueues an image request operation, which asynchronously downloads the image from the specified URL, and sets it the request is finished. Any previous image request for the receiver will be cancelled. If the image is cached locally, the image is set immediately, otherwise the specified placeholder image will be set immediately, and then the remote image will be set once the request is finished.
